@@ -22,4 +22,4 @@ def on_start(message: types.Message):
 
 
 bot.infinity_polling()
-
+#spgspb[kbm[kmbtkrmg
