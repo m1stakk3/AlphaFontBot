@@ -8,6 +8,8 @@ buts = [False, False, False, False]
 # имена кнопок
 font1 = chr(127284) + chr(127303) + chr(127280) + chr(127292) + chr(127295) + chr(127291) + chr(127284)
 font2 = chr(120176) + chr(120221) + chr(120198) + chr(120210) + chr(120213) + chr(120209) + chr(120202)
+font3 = chr(9428) + chr(9447) + chr(9424) + chr(9436) + chr(9439) + chr(9435) + chr(9428)
+#font4 = chr(41823) + chr(41427) + chr(41707) + chr(41042) + chr(41571) + chr(42130) + chr(41823)
 
 # запуск бота + создание кнопок с примером текста
 @bot.message_handler(commands=['start'])
@@ -18,7 +20,7 @@ def on_start(message: types.Message):
             print(users)
         bot.send_message(message.chat.id, chr(129302) + ' Привет! Этот бот помогает оформить красиво твой профиль в соц. сетях.\nНа твой выбор здесь большое количество шрифтов.\n\nПользуйтесь с удовольствием ' + chr(128126))
         keyboard = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-        buttons = [font1, font2, 'Example', 'Example']
+        buttons = [font1, font2, font3, 'Example']
         keyboard.add(*buttons)
         bot.send_message(message.chat.id, "Выберите желаемый шрифт:", reply_markup=keyboard)
 
@@ -29,6 +31,12 @@ def button_listener(s):
     if s == font2:
         buts[1] = True
         return True
+    if s == font3:
+        buts[2] = True
+        return True
+#   if s == font4:
+#       buts[3] = True
+#       return True
     return False
 
 # обработчик текста
@@ -68,5 +76,35 @@ def changer(message: types.Message):
                 pass
         bot.send_message(message.chat.id, text_for_user)
         buts[1] = False
-
+    if buts[2]:
+        text_for_user = ''
+        got_text = message.text.lower()
+        for i in range(len(got_text)):
+            if ord(got_text[i]) in range(0, 123):
+                if got_text[i] == ' ':
+                    text_for_user += ' '
+                if got_text[i].islower() == True:
+                    text_for_user += chr(9450 - (123 - ord(got_text[i])))
+                else:
+                    pass
+            else:
+                pass
+        bot.send_message(message.chat.id, text_for_user)
+        buts[2] = False
+"""    if buts[3]:
+        text_for_user = ''
+        got_text = message.text.lower()
+        for i in range(len(got_text)):
+            if ord(got_text[i]) in range(0, 123):
+                if got_text[i] == ' ':
+                    text_for_user += ' '
+                if got_text[i].islower() == True:
+                    text_for_user += chr(41075 - (123 - ord(got_text[i])))
+                else:
+                    pass
+            else:
+                pass
+        bot.send_message(message.chat.id, text_for_user)
+        buts[3] = False
+"""
 bot.infinity_polling()
